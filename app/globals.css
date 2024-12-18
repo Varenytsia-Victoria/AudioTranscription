@@ -19,3 +19,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+button {
+  @apply px-4 py-2 bg-blue-500 text-white rounded-lg mt-4 disabled:opacity-50;
+}
+
+input[type="file"] {
+  @apply block mt-4;
+}

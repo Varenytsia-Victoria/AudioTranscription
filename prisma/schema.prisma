@@ -19,6 +19,7 @@ model Record {
   id        String   @id @default(uuid())
   userId    String
   filePath  String
+  text      String
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
