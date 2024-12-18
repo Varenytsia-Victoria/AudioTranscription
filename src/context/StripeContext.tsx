@@ -1,4 +1,3 @@
-// filepath: /c:/Users/Вікторія/Desktop/web/test/voice-to-text-saas/src/context/StripeContext.tsx
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { PropsWithChildren } from 'react'

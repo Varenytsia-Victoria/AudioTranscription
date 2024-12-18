@@ -1,6 +1,7 @@
 import prisma from '../lib/db'
 //import './globals.css'
 import { currentUser } from '@clerk/nextjs/server'
+import Dashboard from '@/src/components/Dashboard'
 
 export default async function HomePage() {
 	const user = await currentUser()
@@ -31,9 +32,10 @@ export default async function HomePage() {
 		}
 	}
 
-
 	return (
 		<div>
+			<Dashboard/>
+
 			<h1>Welcome, {user.firstName}!</h1>
 		</div>
 	)

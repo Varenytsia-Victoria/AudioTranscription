@@ -1,14 +1,21 @@
 'use client'
 
 import { useState } from 'react'
+import PaymentModal from './Payment'
 
-const IndexPage = () => {
+const IndexPage = ({ recordingsCount }: { recordingsCount: number }) => {
 	const [file, setFile] = useState<File | null>(null)
 	const [lines, setLines] = useState<string[]>([])
+	const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false)
 
 	const transcribe = async () => {
 		if (!file) {
 			alert('Please upload a file')
+			return
+		}
+
+		if (recordingsCount >= 2) {
+			setShowPaymentModal(true)
 			return
 		}
 
@@ -22,7 +29,7 @@ const IndexPage = () => {
 			})
 
 			const data = await response.json()
-      console.log('API Response:', data)
+			console.log('API Response:', data)
 			const transcript = data.results.channels[0].alternatives[0].transcript
 			setLines(transcript.split('. '))
 		} catch (error) {
@@ -51,6 +58,10 @@ const IndexPage = () => {
 						<p key={index}>{line}</p>
 					))}
 				</div>
+			)}
+
+			{showPaymentModal && (
+				<PaymentModal onClose={() => setShowPaymentModal(false)} />
 			)}
 		</div>
 	)

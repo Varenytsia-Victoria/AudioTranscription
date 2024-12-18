@@ -7,6 +7,7 @@ import {
 } from '@clerk/nextjs'
 import './globals.css'
 import HomePage from '@/src/pages/HomePage'
+import IndexPage from '@/src/components/UploadForm'
 
 export default function RootLayout({
 	children,
@@ -25,12 +26,13 @@ export default function RootLayout({
 					/>
 				</head>
 				<body>
-          <HomePage/>
-					<SignedOut >
-						<SignInButton mode='modal'/>
+					<HomePage />
+					<SignedOut>
+						<SignInButton mode='modal' />
 					</SignedOut>
 					<SignedIn>
 						<UserButton />
+						<IndexPage />
 					</SignedIn>
 					{children}
 				</body>
