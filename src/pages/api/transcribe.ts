@@ -2,46 +2,23 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import multiparty from 'multiparty'
 import fs from 'fs'
 
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-}
+export const config = { api: { bodyParser: false } }
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
-	if (req.method !== 'POST') {
+	if (req.method !== 'POST')
 		return res.status(405).json({ error: 'Method not allowed' })
-	}
 
 	const form = new multiparty.Form()
 
-	interface Fields {
-		[key: string]: string[] | undefined
-	}
+	form.parse(req, async (err, fields, files) => {
+		if (err) return res.status(500).json({ error: 'Error parsing file' })
 
-	interface Files {
-		[key: string]: Array<{
-			fieldName: string
-			originalFilename: string
-			path: string
-			headers: { [key: string]: string }
-			size: number
-		}> | undefined
-	}
+		const file = files.audio ? files.audio[0] : null
+		if (!file) return res.status(400).json({ error: 'No audio file uploaded' })
 
-	form.parse(req, async (err: Error | null, fields: Fields, files: Files) => {
-		if (err) {
-			console.error('Error parsing file:', err)
-			return res.status(500).json({ error: 'Error parsing file' })
-		}
-
-		if (!files.audio) {
-			return res.status(400).json({ error: 'No audio file uploaded' })
-		}
-		const file = files.audio[0]
 		const fileBuffer = fs.readFileSync(file.path)
 
 		try {
@@ -49,7 +26,7 @@ export default async function handler(
 				method: 'POST',
 				headers: {
 					Authorization: `Token ${process.env.DG_API_KEY}`,
-					'Content-Type': 'audio/mp3', // Change according to the file format
+					'Content-Type': 'audio/mp3',
 				},
 				body: fileBuffer,
 			})

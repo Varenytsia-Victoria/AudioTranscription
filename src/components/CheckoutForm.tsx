@@ -1,4 +1,5 @@
-// filepath: /c:/Users/Вікторія/Desktop/web/test/voice-to-text-saas/src/components/CheckoutForm.tsx
+'use client'
+
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 import { useState, useEffect } from 'react'
 
@@ -10,7 +11,6 @@ const CheckoutForm = () => {
 	const [clientSecret, setClientSecret] = useState<string | null>(null)
 
 	useEffect(() => {
-		// Create PaymentIntent as soon as the page loads
 		fetch('/api/create-payment-intent', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -23,33 +23,20 @@ const CheckoutForm = () => {
 		event.preventDefault()
 		setLoading(true)
 
-		if (!stripe || !elements || !clientSecret) {
-			return
-		}
+		if (!stripe || !elements || !clientSecret) return
 
 		const cardElement = elements.getElement(CardElement)
+		if (!cardElement) return
 
-		if (!cardElement) {
-			return
-		}
-
-		const { error } = await stripe.confirmCardPayment(
-			clientSecret,
-			{
-				payment_method: {
-					card: cardElement,
-				},
-			}
-		)
+		const { error } = await stripe.confirmCardPayment(clientSecret, {
+			payment_method: { card: cardElement },
+		})
 
 		if (error) {
 			setError(error.message || 'An error occurred')
-			setLoading(false)
-			return
+		} else {
+			// Handle successful payment (optional)
 		}
-
-		// Handle successful payment here (e.g., display success message)
-
 		setLoading(false)
 	}
 

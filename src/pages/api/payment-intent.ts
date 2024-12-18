@@ -1,4 +1,3 @@
-// filepath: /c:/Users/Вікторія/Desktop/web/test/voice-to-text-saas/src/pages/api/create-payment-intent.ts
 import { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 
@@ -13,10 +12,9 @@ export default async function handler(
 	if (req.method === 'POST') {
 		try {
 			const paymentIntent = await stripe.paymentIntents.create({
-				amount: 1000, // amount in cents
+				amount: 1000,
 				currency: 'usd',
 			})
-
 			res.status(200).json(paymentIntent)
 		} catch (error) {
 			res.status(500).json({ error: error.message })

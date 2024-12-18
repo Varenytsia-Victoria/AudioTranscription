@@ -9,10 +9,7 @@ const IndexPage = ({ recordingsCount }: { recordingsCount: number }) => {
 	const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false)
 
 	const transcribe = async () => {
-		if (!file) {
-			alert('Please upload a file')
-			return
-		}
+		if (!file) return alert('Please upload a file')
 
 		if (recordingsCount >= 2) {
 			setShowPaymentModal(true)
@@ -27,9 +24,7 @@ const IndexPage = ({ recordingsCount }: { recordingsCount: number }) => {
 				method: 'POST',
 				body: formData,
 			})
-
 			const data = await response.json()
-			console.log('API Response:', data)
 			const transcript = data.results.channels[0].alternatives[0].transcript
 			setLines(transcript.split('. '))
 		} catch (error) {
@@ -43,11 +38,7 @@ const IndexPage = ({ recordingsCount }: { recordingsCount: number }) => {
 				type='file'
 				name='audio'
 				accept='audio/*'
-				onChange={e => {
-					if (e.target.files) {
-						setFile(e.target.files[0])
-					}
-				}}
+				onChange={e => e.target.files && setFile(e.target.files[0])}
 			/>
 			<button type='button' onClick={transcribe}>
 				Transcribe
@@ -59,7 +50,6 @@ const IndexPage = ({ recordingsCount }: { recordingsCount: number }) => {
 					))}
 				</div>
 			)}
-
 			{showPaymentModal && (
 				<PaymentModal onClose={() => setShowPaymentModal(false)} />
 			)}

@@ -1,7 +1,6 @@
 'use client'
 
 import StripeContext from '@/src/context/StripeContext'
-import React from 'react'
 
 const Home: React.FC = () => {
 	return (
@@ -10,9 +9,7 @@ const Home: React.FC = () => {
 				<h1 className='text-2xl font-bold text-center mb-4'>
 					Voice to Text App
 				</h1>
-
-				<StripeContext>
-				</StripeContext>
+				<StripeContext />
 			</div>
 		</div>
 	)
