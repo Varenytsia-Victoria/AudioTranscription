@@ -1,4 +1,8 @@
+'use client'
+
+import StripeContext from '@/src/context/StripeContext'
 import IndexPage from '../src/components/UploadForm'
+import CheckoutForm from '../src/components/CheckoutForm'
 import React from 'react'
 
 const Home: React.FC = () => {
@@ -9,6 +13,10 @@ const Home: React.FC = () => {
 					Voice to Text App
 				</h1>
 				<IndexPage />
+
+				<StripeContext>
+					<CheckoutForm />
+				</StripeContext>
 			</div>
 		</div>
 	)
